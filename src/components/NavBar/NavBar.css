@@ -1,0 +1,20 @@
+.custom-nav-dropdown .dropdown-toggle {
+  color: white !important;
+}
+
+.custom-toggler {
+  border-color: rgb(253, 0, 0);
+}
+
+.custom-toggler-icon {
+  background-color: rgb(255, 0, 0);
+}
+
+.offcanvas-body {
+  background-color: #232329;
+}
+
+.offcanvas-header {
+  color: white;
+  background-color: #232329;
+}
