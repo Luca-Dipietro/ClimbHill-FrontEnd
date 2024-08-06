@@ -2,47 +2,47 @@ import { Button, Container, Nav, Navbar, NavDropdown, Offcanvas, Image } from "r
 import "../NavBar/NavBar.css";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
-import { fetchWithToken } from "../../api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../../assets/CLIMB.png";
 
-const capitalize = (str) => {
-  if (typeof str !== "string") return str;
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+// const capitalize = (str) => {
+//   if (typeof str !== "string") return str;
+//   return str.charAt(0).toUpperCase() + str.slice(1);
+// };
 
-const fetchUserData = async () => {
-  try {
-    const data = await fetchWithToken("/utenti/me");
-    if (data) {
-      data.nome = capitalize(data.nome);
-      data.cognome = capitalize(data.cognome);
-    }
-    return data;
-  } catch (error) {
-    throw new Error("Effettua il login");
-  }
-};
+// const fetchUserData = async () => {
+//   try {
+//     const data = await fetchWithToken("/utenti/me");
+//     if (data) {
+//       data.nome = capitalize(data.nome);
+//       data.cognome = capitalize(data.cognome);
+//     }
+//     return data;
+//   } catch (error) {
+//     throw new Error("Effettua il login");
+//   }
+// };
 
 const NavBar = () => {
   const expand = "md";
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [userData, setUserData] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchUserData();
-        setUserData(data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const data = await fetchUserData();
+  //         setUserData(data);
+  //       } catch (error) {
+  //         setError(error.message);
+  //       }
+  //     };
 
-    fetchData();
-  }, []);
+  //     fetchData();
+  //   }, []);
 
   const handleLoginModalClose = () => setShowLoginModal(false);
   const handleLoginModalShow = () => setShowLoginModal(true);
@@ -68,7 +68,7 @@ const NavBar = () => {
     <>
       <Navbar expand={expand} className="bg-dark">
         <Container fluid>
-          <Navbar.Brand href="/Home" className="text-white">
+          <Navbar.Brand href="/" className="text-white">
             <div className="d-flex align-items-center">
               <img src={logo} alt="Logo" height={30} className="me-2" />
               <span className="fw-bold">ClimbHill</span>
@@ -85,7 +85,7 @@ const NavBar = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="/Home" className="text-white">
+                <Nav.Link href="/" className="text-white">
                   Home
                 </Nav.Link>
                 <NavDropdown
@@ -93,7 +93,7 @@ const NavBar = () => {
                   id={`offcanvasNavbarDropdown-expand-${expand}`}
                   className="custom-nav-dropdown"
                 >
-                  <NavDropdown.Item href="/profilo" onClick={handleProtectedLinkClick}>
+                  <NavDropdown.Item href="/" onClick={handleProtectedLinkClick}>
                     Profilo
                   </NavDropdown.Item>
                 </NavDropdown>

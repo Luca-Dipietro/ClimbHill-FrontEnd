@@ -1,4 +1,5 @@
-import { Router } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Router, Routes } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 
@@ -7,6 +8,7 @@ function App() {
     <Router>
       <div className="App">
         <NavBar />
+        <Routes></Routes>
       </div>
     </Router>
   );

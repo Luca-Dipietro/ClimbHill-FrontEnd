@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { login } from "../../api";
-import { useNavigate } from "react-router-dom";
+import { login } from "../../api.js";
+// import { useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const LoginModal = ({ show, handleClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +18,7 @@ const LoginModal = ({ show, handleClose }) => {
         setError("");
         setPassword("");
         handleClose();
-        navigate("/home");
+        // navigate("/home");
         window.location.reload();
       } else {
         setError("Login Fallito!");
