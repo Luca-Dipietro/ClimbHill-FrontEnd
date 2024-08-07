@@ -5,7 +5,7 @@ import RegisterModal from "./RegisterModal";
 import { useEffect, useState } from "react";
 import logo from "../../assets/CLIMB.png";
 import { fetchWithToken } from "../../api";
-import { FaHome, FaTrophy, FaEnvelope } from "react-icons/fa";
+import { FaTrophy, FaEnvelope } from "react-icons/fa";
 
 const capitalize = (str) => {
   if (typeof str !== "string") return str;

@@ -1,0 +1,25 @@
+.homepage-container {
+  font-family: "Roboto", sans-serif;
+}
+
+.game-card {
+  background-color: #232329;
+  color: white;
+  border: 1px solid #333;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+.game-card .card-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.game-card .card-text {
+  font-size: 16px;
+  color: #ccc;
+}
