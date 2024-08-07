@@ -8,7 +8,7 @@ const LoginModal = ({ show, handleClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  //   const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,7 +18,7 @@ const LoginModal = ({ show, handleClose }) => {
         setError("");
         setPassword("");
         handleClose();
-        // navigate("/home");
+        // navigate("/");
         window.location.reload();
       } else {
         setError("Login Fallito!");

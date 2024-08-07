@@ -48,24 +48,26 @@ export const register = async (username, email, password, nome, cognome) => {
   }
 };
 
-// export const fetchWithToken = async (endpoint, options = {}) => {
-//   const token = localStorage.getItem("token");
-//   // eslint-disable-next-line no-useless-catch
-//   try {
-//     const response = await fetch(`${API_URL}${endpoint}`, {
-//       ...options,
-//       headers: {
-//         ...options.headers,
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     if (!response.ok) {
-//       const error = new Error("Richiesta Fallita");
-//       error.status = response.status;
-//       throw error;
-//     }
-//     return response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+export const fetchWithToken = async (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = new Error("Richiesta Fallita");
+      error.status = response.status;
+      throw error;
+    }
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+};

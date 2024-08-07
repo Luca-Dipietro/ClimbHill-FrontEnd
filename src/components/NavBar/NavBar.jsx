@@ -2,47 +2,46 @@ import { Button, Container, Nav, Navbar, NavDropdown, Offcanvas, Image } from "r
 import "../NavBar/NavBar.css";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/CLIMB.png";
+import { fetchWithToken } from "../../api";
 
-// const capitalize = (str) => {
-//   if (typeof str !== "string") return str;
-//   return str.charAt(0).toUpperCase() + str.slice(1);
-// };
+const capitalize = (str) => {
+  if (typeof str !== "string") return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
-// const fetchUserData = async () => {
-//   try {
-//     const data = await fetchWithToken("/utenti/me");
-//     if (data) {
-//       data.nome = capitalize(data.nome);
-//       data.cognome = capitalize(data.cognome);
-//     }
-//     return data;
-//   } catch (error) {
-//     throw new Error("Effettua il login");
-//   }
-// };
+const fetchUserData = async () => {
+  try {
+    const data = await fetchWithToken("/utenti/me");
+    if (data) {
+      data.username = capitalize(data.username);
+    }
+    return data;
+  } catch (error) {
+    throw new Error("Effettua il login");
+  }
+};
 
 const NavBar = () => {
   const expand = "md";
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [userData, setUserData] = useState(null);
-  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
 
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const data = await fetchUserData();
-  //         setUserData(data);
-  //       } catch (error) {
-  //         setError(error.message);
-  //       }
-  //     };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchUserData();
+        setUserData(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
 
-  //     fetchData();
-  //   }, []);
+    fetchData();
+  }, []);
 
   const handleLoginModalClose = () => setShowLoginModal(false);
   const handleLoginModalShow = () => setShowLoginModal(true);
