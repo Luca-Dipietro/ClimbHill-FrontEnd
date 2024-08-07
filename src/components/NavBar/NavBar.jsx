@@ -1,11 +1,11 @@
-import { Button, Container, Nav, Navbar, Image } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, Image, NavDropdown } from "react-bootstrap";
 import "../NavBar/NavBar.css";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { useEffect, useState } from "react";
 import logo from "../../assets/CLIMB.png";
 import { fetchWithToken } from "../../api";
-import { FaHome, FaUser, FaTrophy, FaEnvelope } from "react-icons/fa";
+import { FaHome, FaTrophy, FaEnvelope } from "react-icons/fa";
 
 const capitalize = (str) => {
   if (typeof str !== "string") return str;
@@ -57,13 +57,6 @@ const NavBar = () => {
     window.location.href = "/";
   };
 
-  const handleProtectedLinkClick = (e) => {
-    if (!userData) {
-      e.preventDefault();
-      setShowLoginModal(true);
-    }
-  };
-
   return (
     <>
       <Navbar expand={expand} className="navbar-custom bg-black">
@@ -75,12 +68,6 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Collapse id={`offcanvasNavbar-expand-${expand}`} className="justify-content-end">
             <Nav className="me-auto">
-              <Nav.Link href="/" className="text-white d-flex align-items-center">
-                <FaHome className="me-1" /> Home
-              </Nav.Link>
-              <Nav.Link href="/" className="text-white d-flex align-items-center" onClick={handleProtectedLinkClick}>
-                <FaUser className="me-1" /> Profilo
-              </Nav.Link>
               <Nav.Link href="/" className="text-white d-flex align-items-center">
                 <FaTrophy className="me-1" /> Tornei
               </Nav.Link>
@@ -96,12 +83,22 @@ const NavBar = () => {
                   </Button>
                 </>
               ) : (
-                <>
-                  <Image src={userData.avatar} height={30} width={30} className="rounded-circle me-2" />
-                  <Button variant="outline-light" onClick={handleLogout} className="custom-button">
-                    Logout
-                  </Button>
-                </>
+                <NavDropdown
+                  title={
+                    <div className="d-flex align-items-center">
+                      <Image src={userData.avatar} height={30} width={30} className="rounded-circle" />
+                    </div>
+                  }
+                  id="user-dropdown"
+                  align="end"
+                  className="profile-dropdown text-white"
+                >
+                  <NavDropdown.Item href="/">Profilo</NavDropdown.Item>
+                  <NavDropdown.Item href="/">I miei tornei</NavDropdown.Item>
+                  <NavDropdown.Item href="/">Le mie squadre</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

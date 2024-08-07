@@ -18,10 +18,6 @@
   align-items: center;
 }
 
-.footer-logo-link:hover {
-  color: #6a11cb;
-}
-
 .footer-logo:hover {
   transform: scale(1.1);
 }

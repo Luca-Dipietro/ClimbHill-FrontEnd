@@ -2,6 +2,7 @@ import { useState } from "react";
 import { register } from "../../api";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 
+// eslint-disable-next-line react/prop-types
 const RegisterModal = ({ show, handleClose }) => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");

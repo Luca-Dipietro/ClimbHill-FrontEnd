@@ -3,6 +3,7 @@ import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { login } from "../../api.js";
 import "../NavBar/NavBar.css";
 
+// eslint-disable-next-line react/prop-types
 const LoginModal = ({ show, handleClose, handleShowRegisterModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
