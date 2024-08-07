@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { login } from "../../api.js";
-// import { useNavigate } from "react-router-dom";
+import "../NavBar/NavBar.css";
 
-// eslint-disable-next-line react/prop-types
-const LoginModal = ({ show, handleClose }) => {
+const LoginModal = ({ show, handleClose, handleShowRegisterModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,11 +16,9 @@ const LoginModal = ({ show, handleClose }) => {
         setError("");
         setPassword("");
         handleClose();
-        // navigate("/");
         window.location.reload();
       } else {
         setError("Login Fallito!");
-        console.log("qui");
         setPassword("");
         setEmail("");
       }
@@ -33,7 +29,7 @@ const LoginModal = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} className="login-modal">
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
@@ -50,7 +46,7 @@ const LoginModal = ({ show, handleClose }) => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group controlId="formBasicPassword" className="mt-2">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -59,10 +55,18 @@ const LoginModal = ({ show, handleClose }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="mt-2">
+          <Button variant="primary" type="submit" className="mt-3 custom-button">
             Invia
           </Button>
         </Form>
+        <div className="mt-3 text-center">
+          <p>
+            Non hai un account?{" "}
+            <a href="#" onClick={handleShowRegisterModal} className="register-link">
+              Registrati
+            </a>
+          </p>
+        </div>
       </Modal.Body>
     </Modal>
   );

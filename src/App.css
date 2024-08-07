@@ -1,1 +1,18 @@
+html {
+  scroll-behavior: smooth;
+}
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-bottom: 72px;
+  }
+}

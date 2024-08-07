@@ -1,0 +1,55 @@
+.footer-custom {
+  background-color: #000;
+  color: white;
+  padding: 1rem 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  transition: transform 0.3s;
+}
+
+.footer-logo-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo-link:hover {
+  color: #6a11cb;
+}
+
+.footer-logo:hover {
+  transform: scale(1.1);
+}
+
+.footer-site-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.footer-link:hover {
+  color: #6a11cb;
+}
+
+.footer-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 14px;
+}

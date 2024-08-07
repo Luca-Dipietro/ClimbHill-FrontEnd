@@ -1,20 +1,130 @@
-.custom-nav-dropdown .dropdown-toggle {
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+.navbar-custom {
+  background-color: #000;
+  padding: 1rem;
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  transition: transform 0.3s;
+}
+
+.logo-img:hover {
+  transform: scale(1.1);
+}
+
+.navbar-nav .nav-link {
   color: white !important;
+  margin-right: 1rem;
+  font-size: 16px;
+  transition: color 0.3s, transform 0.3s;
 }
 
-.custom-toggler {
-  border-color: rgb(253, 0, 0);
+.navbar-nav .nav-link:hover {
+  color: #f0f0f0 !important;
+  transform: translateY(-2px);
 }
 
-.custom-toggler-icon {
-  background-color: rgb(255, 0, 0);
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 .offcanvas-body {
-  background-color: #232329;
+  background-color: #000000;
 }
 
 .offcanvas-header {
   color: white;
+  background-color: #000000;
+}
+
+.custom-button {
+  color: white;
+  border-color: white;
+  background-image: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.custom-button:hover {
+  background-image: linear-gradient(45deg, #2575fc 0%, #6a11cb 100%);
+  color: white;
+  transform: scale(1.05);
+}
+
+.btn-outline-light:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Styles for the login modal */
+.login-modal .modal-content {
   background-color: #232329;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.login-modal .modal-header {
+  border-bottom: none;
+}
+
+.login-modal .modal-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+
+.login-modal .form-control {
+  background-color: #1c1c1e;
+  color: white;
+  border: 1px solid #333;
+}
+
+.login-modal .form-control::placeholder {
+  color: #777;
+}
+
+.login-modal .form-control:focus {
+  background-color: #1c1c1e;
+  color: white;
+  border-color: #6a11cb;
+  box-shadow: none;
+}
+
+.privacy-link,
+.register-link {
+  color: #6a11cb;
+  transition: color 0.3s;
+}
+
+.privacy-link:hover,
+.register-link:hover {
+  color: #2575fc;
+  text-decoration: underline;
+}
+
+.modal-header .close {
+  color: white;
+  opacity: 1;
+}
+
+.modal-header .close:hover {
+  color: #ff4c4c;
 }

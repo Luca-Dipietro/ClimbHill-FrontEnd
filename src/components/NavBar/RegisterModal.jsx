@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { register } from "../../api.js";
+import { register } from "../../api";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 
-// eslint-disable-next-line react/prop-types
 const RegisterModal = ({ show, handleClose }) => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -11,9 +10,14 @@ const RegisterModal = ({ show, handleClose }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!acceptedTerms) {
+      setError("Devi accettare i termini di privacy.");
+      return;
+    }
     try {
       const result = await register(username, email, password, nome, cognome);
       if (result) {
@@ -24,6 +28,7 @@ const RegisterModal = ({ show, handleClose }) => {
         setUsername("");
         setEmail("");
         setPassword("");
+        setAcceptedTerms(false);
         handleClose();
       }
     } catch (error) {
@@ -33,7 +38,7 @@ const RegisterModal = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} className="login-modal">
       <Modal.Header closeButton>
         <Modal.Title>Registrati</Modal.Title>
       </Modal.Header>
@@ -88,6 +93,16 @@ const RegisterModal = ({ show, handleClose }) => {
               placeholder="Inserisci Cognome"
               value={cognome}
               onChange={(e) => setCognome(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formTerms">
+            <Form.Check
+              type="checkbox"
+              label="Accetto i termini di privacy"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              required
             />
           </Form.Group>
 
