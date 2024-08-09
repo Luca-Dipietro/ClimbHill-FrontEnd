@@ -4,7 +4,7 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { useEffect, useState } from "react";
 import logo from "../../assets/CLIMB.png";
-import { fetchWithToken } from "../../api";
+import { getProfile } from "../../api";
 import { FaTrophy, FaEnvelope } from "react-icons/fa";
 
 const capitalize = (str) => {
@@ -14,7 +14,7 @@ const capitalize = (str) => {
 
 const fetchUserData = async () => {
   try {
-    const data = await fetchWithToken("/utenti/me");
+    const data = await getProfile("/utenti/me");
     if (data) {
       data.username = capitalize(data.username);
     }

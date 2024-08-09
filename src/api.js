@@ -10,6 +10,8 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+const getToken = () => localStorage.getItem("token");
+
 export const login = async (email, password) => {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
@@ -46,31 +48,13 @@ export const register = async (username, email, password, nome, cognome) => {
   }
 };
 
-export const fetchWithToken = async (endpoint, options = {}) => {
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return await handleResponse(response);
-  } catch (error) {
-    console.error("Errore durante la richiesta:", error.message);
-    throw error;
-  }
-};
-
 export const createGioco = async (giocoData) => {
   try {
     const response = await fetch(`${API_URL}/giochi`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(giocoData),
     });
@@ -83,7 +67,11 @@ export const createGioco = async (giocoData) => {
 
 export const findGiocoById = async (giocoId) => {
   try {
-    const response = await fetch(`${API_URL}/giochi/${giocoId}`);
+    const response = await fetch(`${API_URL}/giochi/${giocoId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero del gioco per ID:", error.message);
@@ -93,7 +81,11 @@ export const findGiocoById = async (giocoId) => {
 
 export const findGiocoByNome = async (nome) => {
   try {
-    const response = await fetch(`${API_URL}/giochi/nomeGioco/${nome}`);
+    const response = await fetch(`${API_URL}/giochi/nomeGioco/${nome}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero del gioco per nome:", error.message);
@@ -103,7 +95,11 @@ export const findGiocoByNome = async (nome) => {
 
 export const getAllGiochi = async (page = 0, size = 10, sortBy = "nome") => {
   try {
-    const response = await fetch(`${API_URL}/giochi?page=${page}&size=${size}&sortBy=${sortBy}`);
+    const response = await fetch(`${API_URL}/giochi?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero dei giochi:", error.message);
@@ -117,6 +113,7 @@ export const updateGiocoById = async (giocoId, giocoData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(giocoData),
     });
@@ -131,6 +128,9 @@ export const deleteGiocoById = async (giocoId) => {
   try {
     const response = await fetch(`${API_URL}/giochi/${giocoId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Errore durante la cancellazione del gioco");
@@ -143,7 +143,11 @@ export const deleteGiocoById = async (giocoId) => {
 
 export const getProfile = async () => {
   try {
-    const response = await fetchWithToken(`/utenti/me`);
+    const response = await fetch(`${API_URL}/utenti/me`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero del profilo:", error.message);
@@ -157,6 +161,7 @@ export const updateProfile = async (profileData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(profileData),
     });
@@ -169,7 +174,11 @@ export const updateProfile = async (profileData) => {
 
 export const getAllUtenti = async (page = 0, size = 10, sortBy = "id") => {
   try {
-    const response = await fetch(`${API_URL}/utenti?page=${page}&size=${size}&sortBy=${sortBy}`);
+    const response = await fetch(`${API_URL}/utenti?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero degli utenti:", error.message);
@@ -179,7 +188,11 @@ export const getAllUtenti = async (page = 0, size = 10, sortBy = "id") => {
 
 export const findUtenteById = async (utenteId) => {
   try {
-    const response = await fetch(`${API_URL}/utenti/${utenteId}`);
+    const response = await fetch(`${API_URL}/utenti/${utenteId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero dell'utente per ID:", error.message);
@@ -193,6 +206,7 @@ export const updateUtenteById = async (utenteId, userData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(userData),
     });
@@ -207,6 +221,9 @@ export const deleteUtenteById = async (utenteId) => {
   try {
     const response = await fetch(`${API_URL}/utenti/${utenteId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Errore durante la cancellazione dell'utente");
@@ -225,6 +242,9 @@ export const uploadAvatarForUser = async (utenteId, avatarFile) => {
     const response = await fetch(`${API_URL}/utenti/${utenteId}/avatar`, {
       method: "PATCH",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     return await handleResponse(response);
   } catch (error) {
@@ -241,10 +261,42 @@ export const uploadAvatarForCurrentUser = async (avatarFile) => {
     const response = await fetch(`${API_URL}/utenti/me/avatar`, {
       method: "PATCH",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il caricamento dell'avatar per l'utente autenticato:", error.message);
+    throw error;
+  }
+};
+
+export const getAllSquadre = async (page = 0, size = 10, sortBy = "id") => {
+  try {
+    const response = await fetch(`${API_URL}/squadre?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const data = await handleResponse(response);
+    return data.content || [];
+  } catch (error) {
+    console.error("Errore durante il recupero delle squadre:", error.message);
+    throw error;
+  }
+};
+
+export const getSquadreByUserId = async (utenteId) => {
+  try {
+    const response = await fetch(`${API_URL}/squadre/${utenteId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante il recupero delle squadre per l'utente:", error.message);
     throw error;
   }
 };
@@ -255,6 +307,7 @@ export const createSquadra = async (utenteId, squadraData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(squadraData),
     });
@@ -267,7 +320,11 @@ export const createSquadra = async (utenteId, squadraData) => {
 
 export const findSquadraById = async (squadraId) => {
   try {
-    const response = await fetch(`${API_URL}/squadre/${squadraId}`);
+    const response = await fetch(`${API_URL}/squadre/${squadraId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero della squadra per ID:", error.message);
@@ -277,7 +334,11 @@ export const findSquadraById = async (squadraId) => {
 
 export const findSquadraByNome = async (nome) => {
   try {
-    const response = await fetch(`${API_URL}/squadre/nome?nome=${nome}`);
+    const response = await fetch(`${API_URL}/squadre/nome?nome=${nome}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero della squadra per nome:", error.message);
@@ -291,6 +352,7 @@ export const updateSquadraById = async (squadraId, squadraData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(squadraData),
     });
@@ -305,6 +367,9 @@ export const deleteSquadraById = async (squadraId) => {
   try {
     const response = await fetch(`${API_URL}/squadre/${squadraId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Errore durante la cancellazione della squadra");
@@ -570,6 +635,7 @@ export const createStatistica = async (statisticaData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(statisticaData),
     });
@@ -585,7 +651,7 @@ export const getStatisticaById = async (statisticaId) => {
     const response = await fetch(`${API_URL}/statistiche/${statisticaId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     return await handleResponse(response);
@@ -601,7 +667,7 @@ export const updateStatisticaById = async (statisticaId, statisticaData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(statisticaData),
     });
@@ -617,7 +683,7 @@ export const deleteStatisticaById = async (statisticaId) => {
     const response = await fetch(`${API_URL}/statistiche/${statisticaId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     if (!response.ok) {
@@ -634,10 +700,90 @@ export const deleteStatisticaById = async (statisticaId) => {
 
 export const getAllStatistiche = async (page = 0, size = 10, sortBy = "id") => {
   try {
-    const response = await fetch(`${API_URL}/statistiche?page=${page}&size=${size}&sortBy=${sortBy}`);
-    return await handleResponse(response);
+    const response = await fetch(`${API_URL}/statistiche?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const data = await handleResponse(response);
+
+    return data.content || [];
   } catch (error) {
     console.error("Errore durante il recupero delle statistiche:", error.message);
+    throw error;
+  }
+};
+
+export const getStatisticaByUtenteId = async (utenteId) => {
+  try {
+    const response = await fetch(`${API_URL}/statistiche/utente/${utenteId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante il recupero delle statistiche per l'utente:", error.message);
+    throw error;
+  }
+};
+
+export const getStatisticaBySquadraId = async (squadraId) => {
+  try {
+    const response = await fetch(`${API_URL}/statistiche/squadra/${squadraId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante il recupero delle statistiche per la squadra:", error.message);
+    throw error;
+  }
+};
+
+export const updateStatisticaForUtente = async (utenteId, vittoria) => {
+  try {
+    const response = await fetch(`${API_URL}/statistiche/utente/${utenteId}/vittoria/${vittoria}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const error = new Error(errorData.message || "Errore durante l'aggiornamento delle statistiche per l'utente");
+      error.status = response.status;
+      throw error;
+    }
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento delle statistiche per l'utente:", error.message);
+    throw error;
+  }
+};
+
+export const updateStatisticaForSquadra = async (squadraId, vittoria) => {
+  try {
+    const response = await fetch(`${API_URL}/statistiche/squadra/${squadraId}/vittoria/${vittoria}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const error = new Error(errorData.message || "Errore durante l'aggiornamento delle statistiche per la squadra");
+      error.status = response.status;
+      throw error;
+    }
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento delle statistiche per la squadra:", error.message);
     throw error;
   }
 };
