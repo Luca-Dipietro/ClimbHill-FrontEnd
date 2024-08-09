@@ -1,25 +1,49 @@
 .homepage-container {
   font-family: "Roboto", sans-serif;
+  color: #fff;
+  background-color: #232329;
 }
 
-.game-card {
-  background-color: #232329;
+.hero-section {
+  background: url("/path/to/hero-image.jpg") no-repeat center center/cover;
+  color: white;
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.featured-games {
+  background-color: #2c2c2c;
+  padding: 3rem 1rem;
+}
+
+.featured-games .game-card {
+  background-color: #1c1c1e;
   color: white;
   border: 1px solid #333;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.game-card:hover {
+.featured-games .game-card:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
-.game-card .card-title {
-  font-size: 20px;
-  font-weight: 700;
+.cta {
+  text-align: center;
+  background-color: #333;
+  padding: 2rem 1rem;
+  border-radius: 8px;
 }
 
-.game-card .card-text {
-  font-size: 16px;
-  color: #ccc;
+.cta h2 {
+  margin-bottom: 1rem;
+}
+
+.cta p {
+  margin-bottom: 1.5rem;
 }

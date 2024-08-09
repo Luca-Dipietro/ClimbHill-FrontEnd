@@ -93,7 +93,7 @@ const NavBar = () => {
                   align="end"
                   className="profile-dropdown text-white"
                 >
-                  <NavDropdown.Item href="/">Profilo</NavDropdown.Item>
+                  <NavDropdown.Item href="/profilepage">Profilo</NavDropdown.Item>
                   <NavDropdown.Item href="/">I miei tornei</NavDropdown.Item>
                   <NavDropdown.Item href="/">Le mie squadre</NavDropdown.Item>
                   <NavDropdown.Divider />

@@ -8,12 +8,5 @@ body {
 }
 
 main {
-  height: 100vh;
-  padding-bottom: 80px;
-}
-
-@media (max-width: 768px) {
-  main {
-    padding-bottom: 72px;
-  }
+  padding: 200px;
 }
