@@ -68,7 +68,7 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Collapse id={`offcanvasNavbar-expand-${expand}`} className="justify-content-end">
             <Nav className="me-auto">
-              <Nav.Link href="/" className="text-white d-flex align-items-center">
+              <Nav.Link href="/torneidisponibili" className="text-white d-flex align-items-center">
                 <FaTrophy className="me-1" /> Tornei
               </Nav.Link>
               <Nav.Link href="#footer" className="text-white d-flex align-items-center">
@@ -94,8 +94,8 @@ const NavBar = () => {
                   className="profile-dropdown text-white"
                 >
                   <NavDropdown.Item href="/profilepage">Profilo</NavDropdown.Item>
-                  <NavDropdown.Item href="/">I miei tornei</NavDropdown.Item>
-                  <NavDropdown.Item href="/">Le mie squadre</NavDropdown.Item>
+                  <NavDropdown.Item href="/mieitornei">I miei tornei</NavDropdown.Item>
+                  <NavDropdown.Item href="/squadreutente">Le mie squadre</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>

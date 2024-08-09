@@ -27,7 +27,7 @@ const HomePage = ({ handleShowRegisterModal }) => {
         <div className="hero-content">
           <h1>Benvenuto su ClimbHill!</h1>
           <p>Scopri i migliori giochi e sfida i tuoi amici.</p>
-          <Button variant="primary" href="#giochi">
+          <Button variant="primary" href="/giochidisponibili">
             Scopri di più
           </Button>
         </div>

@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: white;
+}
+
+.profile-page-container {
+  padding: 120px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.error-message {
+  color: #ff4c4c;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-card {
+  background-color: #232329;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: white;
+}
+
+.profile-card .avatar-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.profile-card img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 5px solid #6a11cb;
+}
+
+.camera-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #6a11cb;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.camera-button:hover {
+  background-color: #2575fc;
+  transform: scale(1.1);
+}
+
+.stats-card {
+  background-color: #232329;
+  border: none;
+  border-radius: 8px;
+}
+
+.stats-card .list-group-item {
+  background-color: #232329;
+  color: white;
+  border: none;
+  font-size: 18px;
+}
+
+.stats-card .list-group-item:not(:last-child) {
+  border-bottom: 1px solid #333;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #dddddd;
+}
