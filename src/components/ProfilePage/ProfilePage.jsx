@@ -80,7 +80,7 @@ const ProfilePage = () => {
         <Col md={4}>
           <Card className="profile-card">
             <div className="avatar-container">
-              <img src={avatar || "/default-avatar.png"} alt="Avatar" />
+              <img src={userData?.avatar} alt="Avatar" />
               <label htmlFor="avatar-upload" className="camera-button">
                 <i className="bi bi-camera"></i>
               </label>
