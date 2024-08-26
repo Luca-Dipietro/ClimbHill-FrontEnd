@@ -109,3 +109,70 @@ body {
   background-color: #6a11cb;
   transform: scale(1.05);
 }
+
+/* Modale scuro per avviso */
+.custom-modal .modal-content {
+  background-color: #232329;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.custom-modal .modal-header {
+  border-bottom: none;
+}
+
+.custom-modal .modal-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: white;
+}
+
+.custom-modal .modal-body {
+  color: white;
+}
+
+.custom-modal .btn-secondary,
+.custom-modal .btn-primary {
+  color: white;
+  border: none;
+}
+
+.custom-modal .btn-secondary {
+  background-color: #333;
+}
+
+.custom-modal .btn-primary {
+  background-color: #6a11cb;
+}
+
+.custom-modal .btn-secondary:hover,
+.custom-modal .btn-primary:hover {
+  opacity: 0.8;
+}
+
+.custom-modal .form-control {
+  background-color: #1c1c1e;
+  color: white;
+  border: 1px solid #333;
+}
+
+.custom-modal .form-control::placeholder {
+  color: #777;
+}
+
+.custom-modal .form-control:focus {
+  background-color: #1c1c1e;
+  color: white;
+  border-color: #6a11cb;
+  box-shadow: none;
+}
+
+.custom-modal .modal-header .close {
+  color: white;
+  opacity: 1;
+}
+
+.custom-modal .modal-header .close:hover {
+  color: #ff4c4c;
+}

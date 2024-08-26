@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
-import { fetchWithToken, getStatisticaById, createStatistica, uploadAvatarForCurrentUser } from "../../api";
+import { fetchWithToken, getStatisticaByUtenteId, createStatistica, uploadAvatarForCurrentUser } from "../../api";
 import "./ProfilePage.css";
 
 const capitalize = (str) => {
@@ -32,26 +32,23 @@ const ProfilePage = () => {
         const profileData = await fetchUserData();
         setUserData(profileData);
 
-        if (userData && profileData.id) {
-          let statisticaData;
-
+        if (profileData && profileData.id) {
           try {
-            statisticaData = await getStatisticaById(profileData.id);
+            const statisticaData = await getStatisticaByUtenteId(profileData.id);
+            setStatistica(statisticaData);
           } catch (error) {
-            if (error.message === "Statistica non trovata") {
-              statisticaData = {
-                userId: profileData.id,
+            if (error.message === `Elemento con id ${profileData.id} non è stato trovato!`) {
+              const newStatistica = {
                 usernameUtente: profileData.username,
                 partiteGiocate: 0,
                 vittorie: 0,
               };
-              await createStatistica(statisticaData);
+              const createdStatistica = await createStatistica(newStatistica);
+              setStatistica(createdStatistica);
             } else {
               throw error;
             }
           }
-
-          setStatistica(statisticaData);
         }
       } catch (error) {
         setError(error.message);
@@ -80,9 +77,9 @@ const ProfilePage = () => {
         <Col md={4}>
           <Card className="profile-card">
             <div className="avatar-container">
-              <img src={userData?.avatar} alt="Avatar" />
+              <img src={userData?.avatar || avatar} alt="Avatar" />
               <label htmlFor="avatar-upload" className="camera-button">
-                <i className="bi bi-camera"></i>
+                <i className="fas fa-camera"></i>
               </label>
               <input
                 type="file"
@@ -107,7 +104,7 @@ const ProfilePage = () => {
               <Card.Body>
                 <Card.Title>Statistiche</Card.Title>
                 <ListGroup>
-                  <ListGroup.Item>Partite Giocate: {statistica.partiteGiocate}</ListGroup.Item>
+                  <ListGroup.Item>Partite Giocate: {statistica.numeroPartiteGiocate}</ListGroup.Item>
                   <ListGroup.Item>Vittorie: {statistica.vittorie}</ListGroup.Item>
                 </ListGroup>
               </Card.Body>

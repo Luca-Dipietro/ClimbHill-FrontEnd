@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: white;
+}
+
+.dettaglio-squadra-container {
+  padding: 120px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.dettaglio-squadra-container h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #6a11cb;
+  text-align: center;
+  border-bottom: 3px solid #6a11cb;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+
+.avatar-wrapper img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 3px solid #6a11cb;
+  object-fit: cover;
+}
+
+.upload-avatar-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: #6a11cb;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.upload-avatar-container input[type="file"] {
+  display: none;
+}
+
+.upload-avatar-container i {
+  color: white;
+  font-size: 18px;
+}
+
+.dettaglio-squadra-container input[type="file"] {
+  margin: 20px 0;
+}
+
+.dettaglio-squadra-container button {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 0 20px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background-image: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.dettaglio-squadra-container button:hover {
+  background-image: linear-gradient(45deg, #2575fc 0%, #6a11cb 100%);
+  transform: scale(1.05);
+}
+
+.dettaglio-squadra-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dettaglio-squadra-container ul li {
+  background-color: #232329;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px;
+  color: #f0f0f0;
+}
+
+.dettaglio-squadra-container ul li:hover {
+  background-color: #6a11cb;
+  transform: translateY(-5px);
+  color: #ffffff;
+}
+
+.dettaglio-squadra-container input[type="text"] {
+  width: calc(100% - 40px);
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #1c1c1e;
+  color: white;
+  font-size: 16px;
+}
+
+.dettaglio-squadra-container input[type="text"]::placeholder {
+  color: #777;
+}
+
+.dettaglio-squadra-container input[type="text"]:focus {
+  border-color: #6a11cb;
+  background-color: #1c1c1e;
+  color: white;
+  box-shadow: none;
+}
+
+.dettaglio-squadra-container h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #6a11cb;
+  margin: 20px 0;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
+}

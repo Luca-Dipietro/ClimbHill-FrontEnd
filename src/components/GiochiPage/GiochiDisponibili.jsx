@@ -23,7 +23,10 @@ const GiochiDisponibili = () => {
       <h2>Giochi Disponibili</h2>
       <ul>
         {giochi.map((gioco) => (
-          <li key={gioco.id}>{gioco.nome}</li>
+          <li key={gioco.id}>
+            <span className="gioco-nome">{gioco.nome}</span>
+            <span className="gioco-descrizione">{gioco.descrizione}</span>
+          </li>
         ))}
       </ul>
     </div>

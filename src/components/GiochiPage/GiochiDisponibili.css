@@ -12,6 +12,7 @@ body {
   padding: 120px 20px;
   max-width: 800px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .giochi-container h2 {
@@ -34,15 +35,50 @@ body {
 .giochi-container ul li {
   background-color: #232329;
   margin-bottom: 15px;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 20px;
+  border-radius: 10px;
   transition: background-color 0.3s, transform 0.3s;
   font-size: 18px;
   color: #f0f0f0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
 }
 
 .giochi-container ul li:hover {
   background-color: #6a11cb;
   transform: translateY(-5px);
   color: #ffffff;
+}
+
+.gioco-nome {
+  font-weight: 700;
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.gioco-descrizione {
+  font-weight: 400;
+  font-size: 16px;
+  color: #cccccc;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 600px) {
+  .giochi-container h2 {
+    font-size: 28px;
+  }
+
+  .giochi-container ul li {
+    padding: 15px;
+  }
+
+  .gioco-nome {
+    font-size: 20px;
+  }
+
+  .gioco-descrizione {
+    font-size: 14px;
+  }
 }

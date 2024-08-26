@@ -47,6 +47,17 @@ body {
   color: #ffffff;
 }
 
+.squadre-container ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.squadre-container ul li a:hover {
+  color: #ffffff;
+}
+
 .squadre-container input[type="text"] {
   width: calc(100% - 40px);
   padding: 10px;
