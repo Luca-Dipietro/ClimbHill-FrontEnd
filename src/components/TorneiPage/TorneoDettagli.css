@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: white;
+}
+
+.torneo-dettaglio-container {
+  padding: 120px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.torneo-dettaglio-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
+}
+
+.torneo-info {
+  margin-bottom: 30px;
+}
+
+.torneo-info div {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+.torneo-info strong {
+  color: #6a11cb;
+}
+
+.iscriviti-button {
+  background-color: #6a11cb;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.iscriviti-button:hover {
+  background-color: #4e0d92;
+}

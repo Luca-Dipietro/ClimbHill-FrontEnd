@@ -10,7 +10,7 @@ body {
 
 .tornei-container {
   padding: 120px 20px;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -25,24 +25,123 @@ body {
   padding-bottom: 10px;
 }
 
+/* Tournament List */
 .tornei-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+.tornei-header,
 .tornei-list li {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 1fr 1fr 1fr;
+  align-items: center;
   background-color: #232329;
-  margin-bottom: 15px;
   padding: 20px;
   border-radius: 8px;
-  transition: background-color 0.3s, transform 0.3s;
-  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.tornei-header {
+  font-weight: 700;
+  background-color: #2a2a35;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.tornei-header span {
   color: #f0f0f0;
 }
 
-.tornei-list li:hover {
+.tornei-list li div {
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.torneo-name {
+  text-align: left;
+  padding-left: 10px;
+}
+
+.torneo-action {
+  text-align: right;
+}
+
+.action-button {
   background-color: #6a11cb;
-  transform: translateY(-5px);
-  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #4e0d92;
+}
+
+/* Modale */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+.modal-content {
+  background-color: #232329;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-content h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  color: #f0f0f0;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.modal-close-button {
+  background-color: #6a11cb;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-button:hover {
+  background-color: #4e0d92;
+}
+
+/* Overlay Effect (for modal background) */
+.modal-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
