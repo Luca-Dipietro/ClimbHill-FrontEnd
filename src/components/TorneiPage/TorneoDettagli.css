@@ -54,3 +54,53 @@ body {
 .iscriviti-button:hover {
   background-color: #4e0d92;
 }
+
+.iscriviti-button.iscritto {
+  background-color: #28a745;
+}
+
+.torneo-dettagli-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.partecipanti,
+.partite {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.partecipanti h3,
+.partite h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
+}
+
+.partecipanti ul,
+.partite ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.partecipanti li,
+.partite li {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+.partecipanti li::before,
+.partite li::before {
+  color: #6a11cb;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}

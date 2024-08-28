@@ -144,3 +144,40 @@ body {
   border-bottom: 2px solid #6a11cb;
   padding-bottom: 10px;
 }
+
+.dettaglio-squadra-container ul li {
+  background-color: #232329;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px;
+  color: #f0f0f0;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dettaglio-squadra-container ul li .remove-icon {
+  font-size: 20px;
+  color: #ff4c4c;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  margin-left: 20px;
+}
+
+.dettaglio-squadra-container ul li .remove-icon:hover {
+  transform: scale(1.2);
+  color: #ff7777;
+}
+
+.dettaglio-squadra-container ul li:hover {
+  background-color: #6a11cb;
+  transform: translateY(-5px);
+  color: #ffffff;
+}
+
+.dettaglio-squadra-container ul li .remove-icon:hover {
+  color: #ff7777;
+}

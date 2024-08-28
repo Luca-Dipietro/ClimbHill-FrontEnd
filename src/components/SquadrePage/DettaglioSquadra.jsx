@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { findSquadraById, updateSquadraById, addMembroToSquadra, removeMembroFromSquadra, getProfile } from "../../api";
+import {
+  findSquadraById,
+  addMembroToSquadra,
+  removeMembroFromSquadra,
+  getProfile,
+  getStatisticaBySquadraId,
+  createStatistica,
+  getMembriSquadra,
+  uploadAvatarForSquadraMember,
+} from "../../api";
 import "./DettaglioSquadra.css";
 
 const DettaglioSquadra = () => {
   const { squadraId } = useParams();
   const navigate = useNavigate();
   const [squadra, setSquadra] = useState(null);
+  const [statistica, setStatistica] = useState(null);
+  const [membri, setMembri] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCapoSquadra, setIsCapoSquadra] = useState(false);
   const [newAvatar, setNewAvatar] = useState(null);
   const [newMembroId, setNewMembroId] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +38,29 @@ const DettaglioSquadra = () => {
 
         setIsAdmin(ruoloAdmin);
         setIsCapoSquadra(ruoloCapoSquadra);
+
+        try {
+          const statisticaData = await getStatisticaBySquadraId(squadraId);
+          setStatistica(statisticaData);
+        } catch (error) {
+          if (error.message === `Elemento con id ${squadraId} non è stato trovato!`) {
+            const newStatistica = {
+              nomeSquadra: squadraData.nome,
+              partiteGiocate: 0,
+              vittorie: 0,
+            };
+            const createdStatistica = await createStatistica(newStatistica);
+            setStatistica(createdStatistica);
+          } else {
+            throw error;
+          }
+        }
+
+        const membriData = await getMembriSquadra(squadraId);
+        setMembri(membriData);
       } catch (error) {
         console.error("Errore durante il recupero dei dettagli della squadra o del profilo:", error);
+        setError(error.message);
       }
     };
 
@@ -35,13 +68,17 @@ const DettaglioSquadra = () => {
   }, [squadraId]);
 
   const handleAvatarChange = (event) => {
-    setNewAvatar(event.target.files[0]);
+    const file = event.target.files[0];
+    setNewAvatar(file);
+    if (file) {
+      handleUploadAvatar(file);
+    }
   };
 
-  const handleUploadAvatar = async () => {
-    if (newAvatar) {
+  const handleUploadAvatar = async (file) => {
+    if (file) {
       try {
-        await updateSquadraById(squadraId, { avatar: newAvatar });
+        await uploadAvatarForSquadraMember(squadraId, file);
         const updatedSquadra = await findSquadraById(squadraId);
         setSquadra(updatedSquadra);
       } catch (error) {
@@ -54,8 +91,8 @@ const DettaglioSquadra = () => {
     if (newMembroId) {
       try {
         await addMembroToSquadra(squadraId, newMembroId);
-        const updatedSquadra = await findSquadraById(squadraId);
-        setSquadra(updatedSquadra);
+        const updatedMembri = await getMembriSquadra(squadraId);
+        setMembri(updatedMembri);
         setNewMembroId("");
       } catch (error) {
         console.error("Errore durante l'aggiunta del membro", error);
@@ -66,8 +103,8 @@ const DettaglioSquadra = () => {
   const handleRemoveMembro = async (utenteId) => {
     try {
       await removeMembroFromSquadra(squadraId, utenteId);
-      const updatedSquadra = await findSquadraById(squadraId);
-      setSquadra(updatedSquadra);
+      const updatedMembri = await getMembriSquadra(squadraId);
+      setMembri(updatedMembri);
     } catch (error) {
       console.error("Errore durante la rimozione del membro", error);
     }
@@ -87,37 +124,42 @@ const DettaglioSquadra = () => {
           </div>
         )}
       </div>
+
+      {error && <p className="error-message">{error}</p>}
+
       <h3>Statistiche</h3>
-      <ul>
-        {squadra.statistiche?.map((statistica) => (
-          <li key={statistica.id}>
-            {statistica.numeroPartiteGiocate} : {statistica.vittorie}
-          </li>
-        ))}
-      </ul>
-      {isAdmin ||
-        (isCapoSquadra && (
-          <>
-            <h3>Membri</h3>
-            <ul>
-              {squadra.membri?.map((membro) => (
-                <li key={membro.id}>
-                  {membro.username}
-                  <button onClick={() => handleRemoveMembro(membro.id)}>Rimuovi</button>
-                </li>
-              ))}
-            </ul>
-            <div>
-              <input
-                type="text"
-                value={newMembroId}
-                onChange={(e) => setNewMembroId(e.target.value)}
-                placeholder="ID del nuovo membro"
-              />
-              <button onClick={handleAddMembro}>Aggiungi Membro</button>
-            </div>
-          </>
-        ))}
+      {statistica ? (
+        <ul>
+          <li>Numero di partite giocate: {statistica.numeroPartiteGiocate}</li>
+          <li>Vittorie: {statistica.vittorie}</li>
+        </ul>
+      ) : (
+        <p>Caricamento statistiche...</p>
+      )}
+
+      {(isAdmin || isCapoSquadra) && (
+        <>
+          <h3>Membri</h3>
+          <ul>
+            {membri?.map((membro) => (
+              <li key={membro.id}>
+                {membro.username}
+                <i className="fas fa-trash-alt remove-icon" onClick={() => handleRemoveMembro(membro.id)}></i>
+              </li>
+            ))}
+          </ul>
+          <div>
+            <h3>Aggiunta Membri</h3>
+            <input
+              type="text"
+              value={newMembroId}
+              onChange={(e) => setNewMembroId(e.target.value)}
+              placeholder="ID del nuovo membro"
+            />
+            <button onClick={handleAddMembro}>Aggiungi Membro</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

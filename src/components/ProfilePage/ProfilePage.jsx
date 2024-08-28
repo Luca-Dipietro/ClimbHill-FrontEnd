@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
-import { fetchWithToken, getStatisticaByUtenteId, createStatistica, uploadAvatarForCurrentUser } from "../../api";
+import {
+  fetchWithToken,
+  getStatisticaByUtenteId,
+  createStatistica,
+  uploadAvatarForCurrentUser,
+  createSquadra,
+  getProfile,
+} from "../../api";
+import { Link } from "react-router-dom";
 import "./ProfilePage.css";
+import "../SquadrePage/SquadreUtente.css";
 
 const capitalize = (str) => {
   if (typeof str !== "string") return str;
@@ -23,14 +32,18 @@ const fetchUserData = async () => {
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [statistica, setStatistica] = useState(null);
+  const [squadre, setSquadre] = useState([]);
+  const [nomeSquadra, setNomeSquadra] = useState("");
   const [error, setError] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const profileData = await fetchUserData();
         setUserData(profileData);
+        setUserId(profileData.id);
 
         if (profileData && profileData.id) {
           try {
@@ -50,6 +63,8 @@ const ProfilePage = () => {
             }
           }
         }
+        const userProfile = await getProfile();
+        setSquadre(userProfile.squadre);
       } catch (error) {
         setError(error.message);
       }
@@ -67,6 +82,22 @@ const ProfilePage = () => {
       } catch (error) {
         setError("Errore durante il caricamento dell'avatar.");
       }
+    }
+  };
+
+  const handleCreaSquadra = async () => {
+    if (!userId) {
+      console.error("ID utente non disponibile");
+      return;
+    }
+
+    try {
+      const squadraData = { nome: nomeSquadra };
+      await createSquadra(userId, squadraData);
+      const updatedProfile = await getProfile();
+      setSquadre(updatedProfile.squadre);
+    } catch (error) {
+      console.error("Errore durante la creazione della squadra", error);
     }
   };
 
@@ -110,6 +141,28 @@ const ProfilePage = () => {
               </Card.Body>
             </Card>
           )}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="squadre-container">
+            <h2>Le mie squadre</h2>
+            <ul>
+              {squadre?.map((squadra) => (
+                <li key={squadra.id}>
+                  <Link to={`/squadreutente/${squadra.id}`}>{squadra.nome}</Link>
+                </li>
+              ))}
+            </ul>
+            <h2>Creazione Squadra</h2>
+            <input
+              type="text"
+              value={nomeSquadra}
+              onChange={(e) => setNomeSquadra(e.target.value)}
+              placeholder="Nome della nuova squadra"
+            />
+            <button onClick={handleCreaSquadra}>Crea Squadra</button>
+          </div>
         </Col>
       </Row>
     </Container>
