@@ -117,7 +117,7 @@ const TorneoDettagli = () => {
               <li key={partecipazione.id}>
                 {partecipazione.utente ? (
                   <>
-                    <strong>Utente:</strong> {partecipazione.utente.nome}
+                    <strong>Utente:</strong> {partecipazione.utente.username}
                   </>
                 ) : (
                   <>

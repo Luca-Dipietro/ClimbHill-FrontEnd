@@ -11,6 +11,7 @@ import {
   uploadAvatarForSquadraMember,
 } from "../../api";
 import "./DettaglioSquadra.css";
+import SuccessAlert from "../TorneiPage/SuccessAlert";
 
 const DettaglioSquadra = () => {
   const { squadraId } = useParams();
@@ -21,8 +22,13 @@ const DettaglioSquadra = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCapoSquadra, setIsCapoSquadra] = useState(false);
   const [newAvatar, setNewAvatar] = useState(null);
-  const [newMembroId, setNewMembroId] = useState("");
+  const [newMembroUsername, setnewMembroUsername] = useState("");
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const closeSuccessAlert = () => {
+    setSuccessMessage("");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,12 +94,14 @@ const DettaglioSquadra = () => {
   };
 
   const handleAddMembro = async () => {
-    if (newMembroId) {
+    if (newMembroUsername) {
       try {
-        await addMembroToSquadra(squadraId, newMembroId);
+        await addMembroToSquadra(squadraId, newMembroUsername);
         const updatedMembri = await getMembriSquadra(squadraId);
         setMembri(updatedMembri);
-        setNewMembroId("");
+        setnewMembroUsername("");
+
+        setSuccessMessage("Membro aggiunto con successo alla squadra!");
       } catch (error) {
         console.error("Errore durante l'aggiunta del membro", error);
       }
@@ -115,6 +123,9 @@ const DettaglioSquadra = () => {
   return (
     <div className="dettaglio-squadra-container">
       <h2>{squadra.nome}</h2>
+
+      {successMessage && <SuccessAlert message={successMessage} onClose={closeSuccessAlert} />}
+
       <div className="avatar-wrapper">
         <img src={squadra.avatar} alt={`${squadra.nome} Avatar`} />
         {(isAdmin || isCapoSquadra) && (
@@ -152,9 +163,9 @@ const DettaglioSquadra = () => {
             <h3>Aggiunta Membri</h3>
             <input
               type="text"
-              value={newMembroId}
-              onChange={(e) => setNewMembroId(e.target.value)}
-              placeholder="ID del nuovo membro"
+              value={newMembroUsername}
+              onChange={(e) => setnewMembroUsername(e.target.value)}
+              placeholder="Username del nuovo membro"
             />
             <button onClick={handleAddMembro}>Aggiungi Membro</button>
           </div>

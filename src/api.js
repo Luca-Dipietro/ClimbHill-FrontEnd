@@ -368,9 +368,9 @@ export const deleteSquadraById = async (squadraId) => {
   }
 };
 
-export const addMembroToSquadra = async (squadraId, utenteId) => {
+export const addMembroToSquadra = async (squadraId, username) => {
   try {
-    const response = await fetch(`${API_URL}/squadre/${squadraId}/membri/${utenteId}`, {
+    const response = await fetch(`${API_URL}/squadre/${squadraId}/membri/${username}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
