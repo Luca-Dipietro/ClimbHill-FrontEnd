@@ -37,7 +37,8 @@ body {
   color: #6a11cb;
 }
 
-.iscriviti-button {
+.iscriviti-button,
+.inizia-torneo-button {
   background-color: #6a11cb;
   border: none;
   padding: 15px 25px;
@@ -49,9 +50,11 @@ body {
   display: block;
   width: 100%;
   text-align: center;
+  margin-top: 20px;
 }
 
-.iscriviti-button:hover {
+.iscriviti-button:hover,
+.inizia-torneo-button:hover {
   background-color: #4e0d92;
 }
 
@@ -60,9 +63,9 @@ body {
 }
 
 .torneo-dettagli-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 30px;
 }
 
@@ -72,6 +75,10 @@ body {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .partecipanti h3,
@@ -88,10 +95,14 @@ body {
 .partite ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .partecipanti li,
 .partite li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 15px;
   font-size: 16px;
   color: #f0f0f0;
@@ -101,6 +112,45 @@ body {
 .partite li::before {
   color: #6a11cb;
   display: inline-block;
-  width: 1em;
-  margin-left: -1em;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  vertical-align: middle;
+  border: 2px solid #ddd;
+}
+
+.warning-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #f5c6cb;
+  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

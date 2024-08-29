@@ -98,19 +98,28 @@ body {
   border-radius: 12px;
   transition: transform 0.4s, box-shadow 0.4s;
   overflow: hidden;
-  padding-bottom: 20px;
+  text-align: center;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 10px;
 }
 
-.game-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+.game-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 .game-card .card-title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 900;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .game-card .card-text {
@@ -119,16 +128,9 @@ body {
   margin-bottom: 20px;
 }
 
-.game-card img {
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  width: 100%;
-  height: auto;
-  transition: transform 0.3s;
-}
-
-.game-card img:hover {
-  transform: scale(1.05);
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Call to Action Section */

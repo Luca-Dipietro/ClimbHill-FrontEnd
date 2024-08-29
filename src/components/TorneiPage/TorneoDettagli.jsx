@@ -14,6 +14,11 @@ const TorneoDettagli = () => {
   const [squadre, setSquadre] = useState([]);
   const [selectedSquadra, setSelectedSquadra] = useState(null);
   const [userIscrizioneSquadra, setUserIscrizioneSquadra] = useState(null);
+  const [partite, setPartite] = useState([]);
+  const [torneoIniziato, setTorneoIniziato] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [oggi, setOggi] = useState(new Date());
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     const fetchTorneo = async () => {
@@ -25,6 +30,7 @@ const TorneoDettagli = () => {
 
         const userProfile = await getProfile();
         setSquadre(userProfile.squadre);
+        setUserRole(userProfile.ruolo);
 
         const userPartecipazione = partecipantiResponse.find(
           (p) => p.utente && p.utente.username === userProfile.username
@@ -74,6 +80,34 @@ const TorneoDettagli = () => {
     iscriviAlTorneo(squadra.nome);
   };
 
+  const handleIniziaTorneo = () => {
+    const dataInizioTorneo = new Date(torneo?.dataFineIscrizione);
+    dataInizioTorneo.setDate(dataInizioTorneo.getDate() + 1);
+
+    if (oggi < dataInizioTorneo) {
+      setShowWarning(true);
+      setTimeout(() => setShowWarning(false), 3000);
+      return;
+    }
+
+    const partiteGenerare = [];
+    for (let i = 0; i < partecipanti.length; i += 2) {
+      const partita = partecipanti[i + 1]
+        ? `${partecipanti[i].utente?.username || partecipanti[i].squadra.nome} vs ${
+            partecipanti[i + 1].utente?.username || partecipanti[i + 1].squadra.nome
+          }`
+        : `${partecipanti[i].utente?.username || partecipanti[i].squadra.nome} vince automaticamente`;
+      partiteGenerare.push(partita);
+    }
+    setPartite(partiteGenerare);
+    setTorneoIniziato(true);
+  };
+
+  const dataInizioTorneo = new Date(torneo?.dataFineIscrizione);
+  dataInizioTorneo.setDate(dataInizioTorneo.getDate() + 1);
+  const inizioTorneoAttivo =
+    userRole && (userRole === "ORGANIZZATORE" || userRole === "ADMIN") && oggi >= dataInizioTorneo;
+
   if (loading) {
     return <div>Caricamento in corso...</div>;
   }
@@ -87,10 +121,7 @@ const TorneoDettagli = () => {
       <h2>{torneo.nome}</h2>
       <div className="torneo-info">
         <div>
-          <strong>Data Inizio:</strong> {torneo.dataInizioIscrizione}
-        </div>
-        <div>
-          <strong>Data Fine:</strong> {torneo.dataFineIscrizione}
+          <strong>Data Inizio:</strong> {dataInizioTorneo.toLocaleDateString()}
         </div>
         <div>
           <strong>Numero Massimo di Partecipanti:</strong> {torneo.numeroMaxPartecipanti}
@@ -100,6 +131,9 @@ const TorneoDettagli = () => {
         </div>
         <div>
           <strong>Descrizione:</strong> {torneo.descrizione || "Nessuna descrizione disponibile"}
+        </div>
+        <div>
+          <strong>Tipo di torneo:</strong> {torneo.tipoTorneo}
         </div>
       </div>
       <button
@@ -117,18 +151,42 @@ const TorneoDettagli = () => {
               <li key={partecipazione.id}>
                 {partecipazione.utente ? (
                   <>
-                    <strong>Utente:</strong> {partecipazione.utente.username}
+                    <img src={partecipazione.utente.avatar} alt="Avatar utente" className="avatar" />
+                    {partecipazione.utente.username}
                   </>
                 ) : (
                   <>
-                    <strong>Squadra:</strong> {partecipazione.squadra.nome}
+                    <img src={partecipazione.squadra.logo} alt="Logo squadra" className="avatar" />
+                    {partecipazione.squadra.nome}
                   </>
                 )}
               </li>
             ))}
           </ul>
         </div>
+        {torneoIniziato && (
+          <div className="partite">
+            <h3>Partite del Torneo</h3>
+            <ul>
+              {partite.map((partita, index) => (
+                <li key={index}>{partita}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
+      {!torneoIniziato && (
+        <>
+          <button className="inizia-torneo-button" onClick={handleIniziaTorneo}>
+            Inizia Torneo
+          </button>
+          {showWarning && (
+            <div className="warning-message">
+              Non è possibile iniziare il torneo prima della data di inizio: {dataInizioTorneo.toLocaleDateString()}
+            </div>
+          )}
+        </>
+      )}
       <Modale
         isOpen={showModale}
         onClose={() => setShowModale(false)}
