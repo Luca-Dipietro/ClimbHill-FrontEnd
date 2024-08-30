@@ -10,8 +10,6 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-const getToken = () => localStorage.getItem("token");
-
 export const login = async (email, password) => {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
@@ -48,13 +46,32 @@ export const register = async (username, email, password, nome, cognome) => {
   }
 };
 
+export const fetchWithToken = async (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante la richiesta:", error.message);
+    throw error;
+  }
+};
+
 export const createGioco = async (giocoData) => {
   try {
     const response = await fetch(`${API_URL}/giochi`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(giocoData),
     });
@@ -69,7 +86,7 @@ export const findGiocoById = async (giocoId) => {
   try {
     const response = await fetch(`${API_URL}/giochi/${giocoId}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -83,7 +100,7 @@ export const findGiocoByNome = async (nome) => {
   try {
     const response = await fetch(`${API_URL}/giochi/nomeGioco/${nome}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -97,7 +114,7 @@ export const getAllGiochi = async (page = 0, size = 10, sortBy = "nome") => {
   try {
     const response = await fetch(`${API_URL}/giochi?page=${page}&size=${size}&sortBy=${sortBy}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -113,7 +130,7 @@ export const updateGiocoById = async (giocoId, giocoData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(giocoData),
     });
@@ -129,7 +146,7 @@ export const deleteGiocoById = async (giocoId) => {
     const response = await fetch(`${API_URL}/giochi/${giocoId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     if (!response.ok) {
@@ -145,7 +162,7 @@ export const getProfile = async () => {
   try {
     const response = await fetch(`${API_URL}/utenti/me`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -161,7 +178,7 @@ export const updateProfile = async (profileData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(profileData),
     });
@@ -176,7 +193,7 @@ export const getAllUtenti = async (page = 0, size = 10, sortBy = "id") => {
   try {
     const response = await fetch(`${API_URL}/utenti?page=${page}&size=${size}&sortBy=${sortBy}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -190,7 +207,7 @@ export const findUtenteById = async (utenteId) => {
   try {
     const response = await fetch(`${API_URL}/utenti/${utenteId}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -206,7 +223,7 @@ export const updateUtenteById = async (utenteId, userData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(userData),
     });
@@ -222,7 +239,7 @@ export const deleteUtenteById = async (utenteId) => {
     const response = await fetch(`${API_URL}/utenti/${utenteId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     if (!response.ok) {
@@ -241,10 +258,10 @@ export const uploadAvatarForUser = async (utenteId, avatarFile) => {
   try {
     const response = await fetch(`${API_URL}/utenti/${utenteId}/avatar`, {
       method: "PATCH",
-      body: formData,
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      body: formData,
     });
     return await handleResponse(response);
   } catch (error) {
@@ -260,43 +277,14 @@ export const uploadAvatarForCurrentUser = async (avatarFile) => {
   try {
     const response = await fetch(`${API_URL}/utenti/me/avatar`, {
       method: "PATCH",
-      body: formData,
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      body: formData,
     });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il caricamento dell'avatar per l'utente autenticato:", error.message);
-    throw error;
-  }
-};
-
-export const getAllSquadre = async (page = 0, size = 10, sortBy = "id") => {
-  try {
-    const response = await fetch(`${API_URL}/squadre?page=${page}&size=${size}&sortBy=${sortBy}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-    const data = await handleResponse(response);
-    return data.content || [];
-  } catch (error) {
-    console.error("Errore durante il recupero delle squadre:", error.message);
-    throw error;
-  }
-};
-
-export const getSquadreByUserId = async (utenteId) => {
-  try {
-    const response = await fetch(`${API_URL}/squadre/${utenteId}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-    return await handleResponse(response);
-  } catch (error) {
-    console.error("Errore durante il recupero delle squadre per l'utente:", error.message);
     throw error;
   }
 };
@@ -307,7 +295,7 @@ export const createSquadra = async (utenteId, squadraData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(squadraData),
     });
@@ -322,7 +310,7 @@ export const findSquadraById = async (squadraId) => {
   try {
     const response = await fetch(`${API_URL}/squadre/${squadraId}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -336,7 +324,7 @@ export const findSquadraByNome = async (nome) => {
   try {
     const response = await fetch(`${API_URL}/squadre/nome?nome=${nome}`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -352,7 +340,7 @@ export const updateSquadraById = async (squadraId, squadraData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(squadraData),
     });
@@ -368,7 +356,7 @@ export const deleteSquadraById = async (squadraId) => {
     const response = await fetch(`${API_URL}/squadre/${squadraId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     if (!response.ok) {
@@ -380,10 +368,13 @@ export const deleteSquadraById = async (squadraId) => {
   }
 };
 
-export const addMembroToSquadra = async (squadraId, utenteId) => {
+export const addMembroToSquadra = async (squadraId, username) => {
   try {
-    const response = await fetch(`${API_URL}/squadre/${squadraId}/membri/${utenteId}`, {
+    const response = await fetch(`${API_URL}/squadre/${squadraId}/membri/${username}`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     return await handleResponse(response);
   } catch (error) {
@@ -396,6 +387,9 @@ export const removeMembroFromSquadra = async (squadraId, utenteId) => {
   try {
     const response = await fetch(`${API_URL}/squadre/${squadraId}/membri/${utenteId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Errore durante la rimozione del membro dalla squadra");
@@ -413,11 +407,28 @@ export const uploadAvatarForSquadraMember = async (utenteId, avatarFile) => {
   try {
     const response = await fetch(`${API_URL}/squadre/${utenteId}/avatar`, {
       method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: formData,
     });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il caricamento dell'avatar per il membro della squadra:", error.message);
+    throw error;
+  }
+};
+
+export const getMembriSquadra = async (squadraId) => {
+  try {
+    const response = await fetch(`${API_URL}/squadre/${squadraId}/membri`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante il recupero dei membri della squadra:", error.message);
     throw error;
   }
 };
@@ -428,6 +439,7 @@ export const createTorneo = async (utenteId, torneoData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(torneoData),
     });
@@ -440,7 +452,11 @@ export const createTorneo = async (utenteId, torneoData) => {
 
 export const findTorneoById = async (torneoId) => {
   try {
-    const response = await fetch(`${API_URL}/tornei/${torneoId}`);
+    const response = await fetch(`${API_URL}/tornei/${torneoId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero del torneo per ID:", error.message);
@@ -448,9 +464,13 @@ export const findTorneoById = async (torneoId) => {
   }
 };
 
-export const getAllTornei = async (page = 0, size = 10, sortBy = "id") => {
+export const getAllTornei = async (page = 0, size = 10, sortBy = "dataInizioIscrizione") => {
   try {
-    const response = await fetch(`${API_URL}/tornei?page=${page}&size=${size}&sortBy=${sortBy}`);
+    const response = await fetch(`${API_URL}/tornei?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero dei tornei:", error.message);
@@ -464,6 +484,7 @@ export const updateTorneoById = async (torneoId, torneoData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(torneoData),
     });
@@ -478,6 +499,9 @@ export const deleteTorneoById = async (torneoId) => {
   try {
     const response = await fetch(`${API_URL}/tornei/${torneoId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     if (!response.ok) {
       throw new Error("Errore durante la cancellazione del torneo");
@@ -508,7 +532,11 @@ export const searchTornei = async (
       sortBy,
     }).toString();
 
-    const response = await fetch(`${API_URL}/tornei/search?${queryParams}`);
+    const response = await fetch(`${API_URL}/tornei/search?${queryParams}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante la ricerca dei tornei:", error.message);
@@ -522,6 +550,7 @@ export const createPartecipazione = async (partecipazioneData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(partecipazioneData),
     });
@@ -535,11 +564,30 @@ export const createPartecipazione = async (partecipazioneData) => {
 export const getPartecipazioni = async (pageNumber = 0, pageSize = 10, sortBy = "id") => {
   try {
     const response = await fetch(
-      `${API_URL}/partecipazioni?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`
+      `${API_URL}/partecipazioni?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero delle partecipazioni:", error.message);
+    throw error;
+  }
+};
+
+export const getPartecipazioniPerTorneo = async (torneoNome) => {
+  try {
+    const response = await fetch(`${API_URL}/partecipazioni/torneo/${torneoNome}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Errore durante il recupero delle partecipazioni per il torneo:", error.message);
     throw error;
   }
 };
@@ -550,6 +598,7 @@ export const createPartita = async (partitaData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(partitaData),
     });
@@ -566,6 +615,7 @@ export const createRisultato = async (partitaId, risultatoData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(risultatoData),
     });
@@ -578,7 +628,11 @@ export const createRisultato = async (partitaId, risultatoData) => {
 
 export const getRisultatoById = async (risultatoId) => {
   try {
-    const response = await fetch(`${API_URL}/risultati/${risultatoId}`);
+    const response = await fetch(`${API_URL}/risultati/${risultatoId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero del risultato:", error.message);
@@ -592,6 +646,7 @@ export const updateRisultatoById = async (risultatoId, risultatoData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(risultatoData),
     });
@@ -606,6 +661,9 @@ export const deleteRisultatoById = async (risultatoId) => {
   try {
     const response = await fetch(`${API_URL}/risultati/${risultatoId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     if (!response.ok) {
       const errorData = await response.json();
@@ -621,7 +679,11 @@ export const deleteRisultatoById = async (risultatoId) => {
 
 export const getAllRisultati = async (page = 0, size = 10, sortBy = "id") => {
   try {
-    const response = await fetch(`${API_URL}/risultati?page=${page}&size=${size}&sortBy=${sortBy}`);
+    const response = await fetch(`${API_URL}/risultati?page=${page}&size=${size}&sortBy=${sortBy}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero dei risultati:", error.message);
@@ -635,7 +697,7 @@ export const createStatistica = async (statisticaData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(statisticaData),
     });
@@ -651,7 +713,7 @@ export const getStatisticaById = async (statisticaId) => {
     const response = await fetch(`${API_URL}/statistiche/${statisticaId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
@@ -667,7 +729,7 @@ export const updateStatisticaById = async (statisticaId, statisticaData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(statisticaData),
     });
@@ -683,7 +745,7 @@ export const deleteStatisticaById = async (statisticaId) => {
     const response = await fetch(`${API_URL}/statistiche/${statisticaId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     if (!response.ok) {
@@ -700,14 +762,8 @@ export const deleteStatisticaById = async (statisticaId) => {
 
 export const getAllStatistiche = async (page = 0, size = 10, sortBy = "id") => {
   try {
-    const response = await fetch(`${API_URL}/statistiche?page=${page}&size=${size}&sortBy=${sortBy}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-    const data = await handleResponse(response);
-
-    return data.content || [];
+    const response = await fetch(`${API_URL}/statistiche?page=${page}&size=${size}&sortBy=${sortBy}`);
+    return await handleResponse(response);
   } catch (error) {
     console.error("Errore durante il recupero delle statistiche:", error.message);
     throw error;
@@ -719,12 +775,12 @@ export const getStatisticaByUtenteId = async (utenteId) => {
     const response = await fetch(`${API_URL}/statistiche/utente/${utenteId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
   } catch (error) {
-    console.error("Errore durante il recupero delle statistiche per l'utente:", error.message);
+    console.error("Errore durante il recupero della statistica per utente ID:", error.message);
     throw error;
   }
 };
@@ -734,56 +790,12 @@ export const getStatisticaBySquadraId = async (squadraId) => {
     const response = await fetch(`${API_URL}/statistiche/squadra/${squadraId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return await handleResponse(response);
   } catch (error) {
-    console.error("Errore durante il recupero delle statistiche per la squadra:", error.message);
-    throw error;
-  }
-};
-
-export const updateStatisticaForUtente = async (utenteId, vittoria) => {
-  try {
-    const response = await fetch(`${API_URL}/statistiche/utente/${utenteId}/vittoria/${vittoria}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      const error = new Error(errorData.message || "Errore durante l'aggiornamento delle statistiche per l'utente");
-      error.status = response.status;
-      throw error;
-    }
-  } catch (error) {
-    console.error("Errore durante l'aggiornamento delle statistiche per l'utente:", error.message);
-    throw error;
-  }
-};
-
-export const updateStatisticaForSquadra = async (squadraId, vittoria) => {
-  try {
-    const response = await fetch(`${API_URL}/statistiche/squadra/${squadraId}/vittoria/${vittoria}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      const error = new Error(errorData.message || "Errore durante l'aggiornamento delle statistiche per la squadra");
-      error.status = response.status;
-      throw error;
-    }
-  } catch (error) {
-    console.error("Errore durante l'aggiornamento delle statistiche per la squadra:", error.message);
+    console.error("Errore durante il recupero della statistica per utente ID:", error.message);
     throw error;
   }
 };
