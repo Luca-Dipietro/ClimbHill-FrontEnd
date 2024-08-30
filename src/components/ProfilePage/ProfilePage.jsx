@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
-import { createStatistica, uploadAvatarForCurrentUser, getProfile, getStatisticaByUtenteId } from "../../api";
+import {
+  fetchWithToken,
+  getStatisticaByUtenteId,
+  createStatistica,
+  uploadAvatarForCurrentUser,
+  createSquadra,
+  getProfile,
+} from "../../api";
+import { Link } from "react-router-dom";
 import "./ProfilePage.css";
+import "../SquadrePage/SquadreUtente.css";
 
 const capitalize = (str) => {
   if (typeof str !== "string") return str;
@@ -10,7 +19,7 @@ const capitalize = (str) => {
 
 const fetchUserData = async () => {
   try {
-    const data = await getProfile("/utenti/me");
+    const data = await fetchWithToken("/utenti/me");
     if (data) {
       data.username = capitalize(data.username);
       return data;
@@ -21,42 +30,42 @@ const fetchUserData = async () => {
 };
 
 const ProfilePage = () => {
-  const [profileData, setProfileData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [statistica, setStatistica] = useState(null);
+  const [squadre, setSquadre] = useState([]);
+  const [nomeSquadra, setNomeSquadra] = useState("");
   const [error, setError] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userData = await fetchUserData();
-        setProfileData(userData);
+        const profileData = await fetchUserData();
+        setUserData(profileData);
+        setUserId(profileData.id);
 
-        if (userData && userData.id) {
+        if (profileData && profileData.id) {
           try {
-            const statisticaData = await getStatisticaByUtenteId(userData.id);
-
-            if (statisticaData) {
-              setStatistica(statisticaData);
-            } else {
+            const statisticaData = await getStatisticaByUtenteId(profileData.id);
+            setStatistica(statisticaData);
+          } catch (error) {
+            if (error.message === `Elemento con id ${profileData.id} non è stato trovato!`) {
               const newStatistica = {
-                userId: userData.id,
-                usernameUtente: userData.username,
+                usernameUtente: profileData.username,
                 partiteGiocate: 0,
                 vittorie: 0,
               };
               const createdStatistica = await createStatistica(newStatistica);
               setStatistica(createdStatistica);
+            } else {
+              throw error;
             }
-          } catch (error) {
-            console.error("Error while fetching or creating statistics:", error.message);
-            setError(error.message);
           }
-        } else {
-          console.error("User data is missing or invalid:", userData);
         }
+        const userProfile = await getProfile();
+        setSquadre(userProfile.squadre);
       } catch (error) {
-        console.error("Error in fetchData:", error.message);
         setError(error.message);
       }
     };
@@ -76,6 +85,22 @@ const ProfilePage = () => {
     }
   };
 
+  const handleCreaSquadra = async () => {
+    if (!userId) {
+      console.error("ID utente non disponibile");
+      return;
+    }
+
+    try {
+      const squadraData = { nome: nomeSquadra };
+      await createSquadra(userId, squadraData);
+      const updatedProfile = await getProfile();
+      setSquadre(updatedProfile.squadre);
+    } catch (error) {
+      console.error("Errore durante la creazione della squadra", error);
+    }
+  };
+
   return (
     <Container className="profile-page-container">
       {error && <div className="error-message">{error}</div>}
@@ -83,9 +108,9 @@ const ProfilePage = () => {
         <Col md={4}>
           <Card className="profile-card">
             <div className="avatar-container">
-              <img src={profileData?.avatar} alt="Avatar" />
+              <img src={userData?.avatar || avatar} alt="Avatar" />
               <label htmlFor="avatar-upload" className="camera-button">
-                <i className="bi bi-camera"></i>
+                <i className="fas fa-camera"></i>
               </label>
               <input
                 type="file"
@@ -97,10 +122,10 @@ const ProfilePage = () => {
             </div>
             <Card.Body>
               <Card.Title>
-                {profileData?.nome} {profileData?.cognome}
+                {userData?.nome} {userData?.cognome}
               </Card.Title>
-              <Card.Text>Email: {profileData?.email}</Card.Text>
-              <Card.Text>Username: {profileData?.username}</Card.Text>
+              <Card.Text>Email: {userData?.email}</Card.Text>
+              <Card.Text>Username: {userData?.username}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
@@ -110,12 +135,34 @@ const ProfilePage = () => {
               <Card.Body>
                 <Card.Title>Statistiche</Card.Title>
                 <ListGroup>
-                  <ListGroup.Item>Partite Giocate: {statistica.partiteGiocate}</ListGroup.Item>
+                  <ListGroup.Item>Partite Giocate: {statistica.numeroPartiteGiocate}</ListGroup.Item>
                   <ListGroup.Item>Vittorie: {statistica.vittorie}</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>
           )}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="squadre-container">
+            <h2>Le mie squadre</h2>
+            <ul>
+              {squadre?.map((squadra) => (
+                <li key={squadra.id}>
+                  <Link to={`/squadreutente/${squadra.id}`}>{squadra.nome}</Link>
+                </li>
+              ))}
+            </ul>
+            <h2>Creazione Squadra</h2>
+            <input
+              type="text"
+              value={nomeSquadra}
+              onChange={(e) => setNomeSquadra(e.target.value)}
+              placeholder="Nome della nuova squadra"
+            />
+            <button onClick={handleCreaSquadra}>Crea Squadra</button>
+          </div>
         </Col>
       </Row>
     </Container>
