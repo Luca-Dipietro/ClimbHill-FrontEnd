@@ -9,8 +9,7 @@ body {
 }
 
 .squadre-container {
-  padding: 120px 20px;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -44,6 +43,17 @@ body {
 .squadre-container ul li:hover {
   background-color: #6a11cb;
   transform: translateY(-5px);
+  color: #ffffff;
+}
+
+.squadre-container ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.squadre-container ul li a:hover {
   color: #ffffff;
 }
 

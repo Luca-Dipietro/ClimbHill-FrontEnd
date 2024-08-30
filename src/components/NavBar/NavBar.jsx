@@ -95,7 +95,6 @@ const NavBar = () => {
                 >
                   <NavDropdown.Item href="/profilepage">Profilo</NavDropdown.Item>
                   <NavDropdown.Item href="/mieitornei">I miei tornei</NavDropdown.Item>
-                  <NavDropdown.Item href="/squadreutente">Le mie squadre</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>

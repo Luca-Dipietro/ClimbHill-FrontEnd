@@ -8,7 +8,8 @@ import ProfilePage from "./components/ProfilePage/ProfilePage";
 import MieiTorneiPage from "./components/TorneiPage/MieiTorneiPage";
 import TorneiDisponibili from "./components/TorneiPage/TorneiDisponibili";
 import GiochiDisponibili from "./components/GiochiPage/GiochiDisponibili";
-import SquadreUtente from "./components/SquadrePage/SquadreUtente";
+import DettaglioSquadra from "./components/SquadrePage/DettaglioSquadra";
+import TorneoDettagli from "./components/TorneiPage/TorneoDettagli";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="/mieitornei" element={<MieiTorneiPage />} />
           <Route path="/giochidisponibili" element={<GiochiDisponibili />} />
           <Route path="/torneidisponibili" element={<TorneiDisponibili />} />
-          <Route path="/squadreutente" element={<SquadreUtente />} />
+          <Route path="/torneodettagli/:id" element={<TorneoDettagli />} />
+          <Route path="/squadreutente/:squadraId" element={<DettaglioSquadra />} />
         </Routes>
 
         <Footer />

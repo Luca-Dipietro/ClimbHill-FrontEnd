@@ -5,55 +5,58 @@ body {
   margin: 0;
   padding: 0;
   background-color: #121212;
-  color: white;
+  color: #e0e0e0;
 }
 
 .miei-tornei-container {
   padding: 120px 20px;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
+  border-radius: 10px;
 }
 
 .miei-tornei-container h1 {
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 700;
   margin-bottom: 40px;
-  text-align: center;
   color: #ffffff;
   border-bottom: 3px solid #6a11cb;
-  display: inline-block;
-  padding-bottom: 10px;
-}
-
-.miei-tornei-container section {
-  margin-bottom: 50px;
+  padding-bottom: 15px;
 }
 
 .miei-tornei-container h2 {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #6a11cb;
+  color: #ffffff;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
 }
 
-.tornei-list {
+.miei-tornei-container ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.tornei-list li {
-  background-color: #232329;
-  margin-bottom: 15px;
-  padding: 20px;
+.miei-tornei-container li {
+  background-color: #282828;
   border-radius: 8px;
-  transition: background-color 0.3s, transform 0.3s;
-  font-size: 18px;
-  color: #f0f0f0;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.tornei-list li:hover {
-  background-color: #6a11cb;
-  transform: translateY(-5px);
-  color: #ffffff;
+.miei-tornei-container li:hover {
+  background-color: #333333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  border-left: 5px solid #6a11cb;
+}
+
+.miei-tornei-container li:active {
+  background-color: #444444;
+  transform: translateY(-2px);
 }

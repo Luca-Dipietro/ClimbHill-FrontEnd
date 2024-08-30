@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: white;
+}
+
+.torneo-dettaglio-container {
+  padding: 120px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.torneo-dettaglio-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
+}
+
+.torneo-info {
+  margin-bottom: 30px;
+}
+
+.torneo-info div {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+.torneo-info strong {
+  color: #6a11cb;
+}
+
+.iscriviti-button,
+.inizia-torneo-button {
+  background-color: #6a11cb;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.iscriviti-button:hover,
+.inizia-torneo-button:hover {
+  background-color: #4e0d92;
+}
+
+.iscriviti-button.iscritto {
+  background-color: #28a745;
+}
+
+.torneo-dettagli-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.partecipanti,
+.partite {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.partecipanti h3,
+.partite h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+  border-bottom: 2px solid #6a11cb;
+  padding-bottom: 10px;
+}
+
+.partecipanti ul,
+.partite ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.partecipanti li,
+.partite li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #f0f0f0;
+}
+
+.partecipanti li::before,
+.partite li::before {
+  color: #6a11cb;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  vertical-align: middle;
+  border: 2px solid #ddd;
+}
+
+.warning-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #f5c6cb;
+  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

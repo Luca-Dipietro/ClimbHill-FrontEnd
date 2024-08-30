@@ -25,3 +25,7 @@ body {
 .mb-4 {
   margin-bottom: 1.5rem;
 }
+
+.modal {
+  z-index: 1500 !important;
+}
