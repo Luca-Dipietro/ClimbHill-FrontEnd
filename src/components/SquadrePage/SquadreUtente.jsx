@@ -1,59 +1,38 @@
 import { useEffect, useState } from "react";
-import { createSquadra, getProfile, getSquadreByUserId } from "../../api";
+import { createSquadra, getProfile } from "../../api";
 import "./SquadreUtente.css";
-
-const capitalize = (str) => {
-  if (typeof str !== "string") return str;
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-const fetchUserData = async () => {
-  try {
-    const data = await getProfile("/utenti/me");
-    if (data) {
-      data.username = capitalize(data.username);
-      return data;
-    }
-  } catch (error) {
-    throw new Error("Errore durante il recupero del profilo");
-  }
-};
+import { Link } from "react-router-dom";
 
 const SquadreUtente = () => {
-  const [profileData, setProfileData] = useState(null);
   const [squadre, setSquadre] = useState([]);
   const [nomeSquadra, setNomeSquadra] = useState("");
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const fetchUserAndSquadre = async () => {
+    const fetchProfile = async () => {
       try {
-        const userData = await fetchUserData();
-        setProfileData(userData);
-
-        if (userData && userData.id) {
-          const squadreUtente = await getSquadreByUserId(userData.id);
-          setSquadre(squadreUtente);
-        }
-      } catch (err) {
-        console.error("Errore durante il recupero dell'utente o delle squadre:", err.message);
+        const userProfile = await getProfile();
+        setSquadre(userProfile.squadre);
+        setUserId(userProfile.id);
+      } catch (error) {
+        console.error("Errore durante il recupero del profilo utente", error);
       }
     };
 
-    fetchUserAndSquadre();
+    fetchProfile();
   }, []);
 
   const handleCreaSquadra = async () => {
+    if (!userId) {
+      console.error("ID utente non disponibile");
+      return;
+    }
+
     try {
-      if (!profileData || !profileData.id) {
-        console.error("Profilo utente non trovato");
-        return;
-      }
-
       const squadraData = { nome: nomeSquadra };
-      await createSquadra(profileData.id, squadraData);
-
-      const squadreUtente = await getSquadreByUserId(profileData.id);
-      setSquadre(squadreUtente);
+      await createSquadra(userId, squadraData);
+      const updatedProfile = await getProfile();
+      setSquadre(updatedProfile.squadre);
     } catch (error) {
       console.error("Errore durante la creazione della squadra", error);
     }
@@ -63,12 +42,13 @@ const SquadreUtente = () => {
     <div className="squadre-container">
       <h2>Le mie squadre</h2>
       <ul>
-        {squadre.length > 0 ? (
-          squadre.map((squadra) => <li key={squadra.id}>{squadra.nome}</li>)
-        ) : (
-          <li>Nessuna squadra disponibile</li>
-        )}
+        {squadre?.map((squadra) => (
+          <li key={squadra.id}>
+            <Link to={`/squadreutente/${squadra.id}`}>{squadra.nome}</Link>
+          </li>
+        ))}
       </ul>
+      <h2>Creazione Squadra</h2>
       <input
         type="text"
         value={nomeSquadra}
